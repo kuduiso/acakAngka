@@ -2,34 +2,63 @@
 <html>
 <head>
 	<title>AcakAcak</title>
+	<script type="text/javascript" src="angka.js"></script>
+	<script src="jquery-3.4.1.min.js"></script>
 </head>
 <body>
-	<?php include "acakAcak.php"?>
+	<!--Menampilkan datasiswa-->
+	<table border="1" style="border-collapse: collapse;">
+		<tr>
+			<th>NIM</th>
+			<th>NAMA</th>
+			<th>KELOMPOK</th>
+		</tr>
+		<?php
+		include "conn.php";
+		$query = mysqli_query($conn,"SELECT * FROM datasiswa");
+		while ($row = mysqli_fetch_array($query)) {
+			echo"
+		<tr>
+			<td>".$row["nim"]."</td>
+			<td>".$row["nama"]."</td>
+			<td>".$row["kelompok"]."</td>
+		</tr>";
+		}
+		
+		?>
+	</table>
 
-	<input type="text" id="hasil" value=""></input>
+	<!--Ini kolom jumlah kelompok--->
+	<form class="form-user">
+		Jumlah Kelompok:
+		<input type="text" name="kelompok" id="kelompok">
+	</form>
+	<button id="asd">Acak</button>
+
+	<div class="tampildata">
+	</div>
+	<!--
 	<p id="number" style="font-size:36px" value=""></p>
-	<button id="asd" onclick="zxc();">Acak</button>
+	-->
+	<!--untuk menghitung kelompok pakai array dan perulangan-->
+	<!--jika jumlah array terpenuhi acak angka selesai-->
 
 	<script type="text/javascript">
-		var button = document.getElementById("asd");
-		let count = 0;
-		let angka = 0;
-		let intervalID;
-		function zxc(){
-				document.getElementById("number").innerHTML = Math.floor(Math.random() * 10)+1;
-			}
-		intervalID = setInterval(function(){
-			count += 1;
-			if(count % 100 == 0){
-				document.getElementById("hasil").value = document.getElementById("number").innerHTML;
-				console.log(count)
-				clearInterval(intervalID);
-			}else{
-				button.click();
-			}
-		},5)
-
-		
+	$(document).ready(function(){
+	$("#asd").click(function(){
+		var kelompok = $("#kelompok").val();
+		$.ajax({
+			url: "coba.php",
+			type: "POST",
+			data: {
+				'kelompok': kelompok,
+			},
+			success: function(data){
+				$(".tampildata").html(data);
+				}
+			})
+		})
+	})
 	</script>
 
 </body>
