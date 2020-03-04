@@ -1,12 +1,15 @@
 <?php
 include "conn.php";
 include "groupArray.php";
+include "create.php";
+include "simpan.php";
 
 $data[] = array();
 $angka = array();
 $hitung = 0;
 $total = 0;
 $zxc = array();
+$matkul = str_replace(' ','',trim(strtolower($_POST["matkul"])));
 
 /*
 while($row = mysqli_fetch_array($query)){
@@ -53,12 +56,13 @@ while ($asd = mysqli_fetch_assoc($query)) {
 	$zxc[] = array("nama"=>$asd["nama"], "kelompok"=>$angka[$hitung], "nim"=>$asd["nim"]);
 	$hitung += 1;
 }
-//print_r($zxc);
+
+//grouping array per kelompok
 $grouped = array_group_by($zxc, "kelompok");
 
 echo "<br/>";
-print_r($grouped);
-echo $grouped[1][0]["nama"];
+print_r($zxc);
+//echo $grouped[1][0]["nama"];
 
 //menampilkan array assoc
 for ($i=1; $i <= $_POST["kelompok"] ; $i++) { 
@@ -82,6 +86,8 @@ foreach ($grouped[$i] as $key => $value) {
 }
 echo "</table>";
 }
-//grouping array per kelompok
 
+//simpan array assoc
+
+echo create_tabel($matkul, $conn)." ".simpan_data($matkul, $zxc, $conn);
 ?>

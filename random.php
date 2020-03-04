@@ -32,6 +32,8 @@
 	<form class="form-user">
 		Jumlah Kelompok:
 		<input type="text" name="kelompok" id="kelompok">
+		Mata Kuliah:
+		<input type="text" name="matkul" id="matkul" maxlength="10">
 	</form>
 	<button id="asd">Acak</button>
 
@@ -47,11 +49,13 @@
 	$(document).ready(function(){
 	$("#asd").click(function(){
 		var kelompok = $("#kelompok").val();
+		var matkul = $("#matkul").val();
 		$.ajax({
 			url: "coba.php",
 			type: "POST",
 			data: {
 				'kelompok': kelompok,
+				'matkul': matkul
 			},
 			success: function(data){
 				$(".tampildata").html(data);
